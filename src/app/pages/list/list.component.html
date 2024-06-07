@@ -1,0 +1,38 @@
+<div class="d-flex align-items-center justify-content-between mt-4 mb-4">
+    <h2 class="mb-0">To Do list</h2>
+    <button class="btn btn-primary">Add Task <i class="bi bi-plus-lg"></i></button>
+</div>
+<table class="table table-bordered table-responsive">
+    <colgroup>
+        <col span="1" style="width: 40%;">
+        <col span="1">
+        <col span="1">
+        <col span="1" style="width: 7%;">
+    </colgroup>
+    <thead>
+        <tr>
+            <th scope="col">Task name</th>
+            <th scope="col">Created at</th>
+            <th scope="col">Updated at</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Task 1</td>
+            <td>01.05.2020</td>
+            <td>01.05.2020</td>
+            <td>
+                <div ngbDropdown class="d-inline-block" placement="bottom-end">
+                    <button class="btn action-btn d-inline-block" type="button" id="actionDropDown" ngbDropdownToggle>
+                        <i class="bi bi-three-dots"></i>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="actionDropDown">
+                        <button ngbDropdownItem class="edit-btn">Edit</button>
+                        <button ngbDropdownItem class="delete-btn">Delete</button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

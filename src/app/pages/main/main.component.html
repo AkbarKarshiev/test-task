@@ -1,0 +1,10 @@
+<h1>The World is best {{ brand }}!</h1>
+<ng-container *ngIf="{
+    userLoggedIn: userLoggedIn$ | async,
+} as data">
+    <p *ngIf="!data.userLoggedIn">Please log in to start working.</p>
+    <div>
+        <button class="btn btn-primary" *ngIf="!data.userLoggedIn" (click)="logIn()">Sign In</button>
+        <button class="btn btn-primary" *ngIf="data.userLoggedIn" (click)="goToListPage()">Start Working</button>
+    </div>
+</ng-container>

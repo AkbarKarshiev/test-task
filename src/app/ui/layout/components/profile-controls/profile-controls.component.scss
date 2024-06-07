@@ -1,0 +1,41 @@
+@import "variables";
+
+:host {
+    display: block;
+}
+
+.dropdown-menu {
+    min-width: 12rem;
+
+    &.wider {
+        min-width: 18rem;
+    }
+}
+
+.dropdown-item {
+    text-align: center;
+
+    &.logout-btn:not(:active) {
+        color: $danger;
+    }
+}
+
+button {
+    &.profile-btn {
+        font-size: 1.6rem;
+        color: $primary;
+        transition: opacity .2s ease 0s;
+
+        &:hover, &:focus {
+            opacity: .65;
+        }
+
+        &:active, &.show {
+            border-color: transparent;
+        }
+
+        &:after {
+            display: none;
+        }
+    }
+}

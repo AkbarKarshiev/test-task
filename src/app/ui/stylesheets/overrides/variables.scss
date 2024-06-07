@@ -1,0 +1,59 @@
+$white: #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black:    #000;
+
+$primary: #7A6EAA;
+$danger: #dc3545;
+$teal-500: #20c997;
+$body-bg: $white;
+
+$font-size-base: 1rem;
+$line-height-base: 1.5;
+$font-weight-bold: 700;
+
+$nav-link-padding-x: 1rem;
+$nav-link-padding-y: .5rem;
+$nav-link-padding-x: 1rem;
+
+//$input-border-radius: 0;
+//$input-border-radius-sm: 0;
+//$input-border-radius-lg: 0;
+//$input-btn-focus-width: .1rem;
+//$pagination-border-radius: 0;
+
+$grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 768px,
+        lg: 992px,
+        xl: 1280px,
+        xxl: 1400px
+);
+
+
+// Nav pills start
+$nav-pills-border-radius: 0;
+// Nav pills end
+
+$escaped-characters: (
+                ("<", "%3c"),
+                (">", "%3e"),
+                ("#", "%23"),
+                ("(", "%28"),
+                (")", "%29"),
+);
+
+$navbar-toggler-padding-y: .25rem;
+$navbar-toggler-padding-x: .75rem;
+
+$navbar-light-color: rgba($black, .55) !default;
+
+$navbar-light-toggler-icon-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-light-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;

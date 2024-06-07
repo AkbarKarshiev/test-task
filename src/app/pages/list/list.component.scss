@@ -1,0 +1,26 @@
+@import "variables";
+
+
+:host {
+    display: flex;
+    flex-direction: column;
+    min-height: 16rem;
+}
+
+.action-btn {
+    font-size: 1.2rem;
+
+    &:after {
+        display: none;
+    }
+}
+
+.dropdown-item {
+    &.delete-btn:not(:active) {
+        color: $danger;
+    }
+
+    &.edit-btn:not(:active) {
+        color: $teal-500;
+    }
+}

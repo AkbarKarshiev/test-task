@@ -1,0 +1,29 @@
+<div class="main-side">
+    <div class="sign-in-card">
+        <div class="px-5 pt-5 pb-4">
+            <form [formGroup]="authForm" (ngSubmit)="submit()">
+                <h2 class="text-center text-primary">Welcome Back!</h2>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" class="form-control" formControlName="email" id="email" placeholder="your@mail.com">
+                    <ng-container *ngIf="authForm.get('email')?.invalid && authForm.get('email')?.touched">
+                        <div class="text-danger" *ngIf="authForm.get('email')?.hasError('required')">Email is required</div>
+                        <div class="text-danger" *ngIf="authForm.get('email')?.hasError('email')">Email format is incorrect</div>
+                    </ng-container>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" formControlName="password" id="password">
+                    <ng-container *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.touched">
+                        <div class="text-danger" *ngIf="authForm.get('password')?.hasError('required')">Email is required</div>
+                    </ng-container>
+                </div>
+                <button class="btn btn-primary w-100" type="submit" [disabled]="(submitting$ | async) || authForm.invalid">
+                    <span *ngIf="submitting$ | async" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Sign In
+                </button>
+                <a class="btn btn-link w-100 mt-3" (click)="goToMainPage()">Go Back</a>
+            </form>
+        </div>
+    </div>
+</div>

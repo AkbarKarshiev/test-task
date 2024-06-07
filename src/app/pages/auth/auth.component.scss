@@ -1,0 +1,20 @@
+@import "variables";
+
+:host {
+    display: flex;
+    min-height: 100vh;
+    margin: auto;
+    justify-content: center;
+    padding: 0 1.4rem 1.4rem;
+    background: linear-gradient(180deg, #CCE3F5 0%, #eaf2f6 100%);
+}
+
+.main-side {
+    width: 33rem;
+}
+
+.sign-in-card {
+    margin-top: 4rem;
+    background-color: $white;
+    border-radius: 0.5rem;
+}

@@ -1,0 +1,29 @@
+<div ngbDropdown class="d-inline-block" placement="bottom-end">
+    <button class="btn profile-btn d-inline-block" type="button" id="profileDropDown" ngbDropdownToggle>
+        <i class="bi bi-person"></i>
+    </button>
+    <div ngbDropdownMenu aria-labelledby="profileDropDown" [ngClass]="{ 'wider': userLoggedIn$ | async }">
+        <ng-container *ngIf="{
+            loggedIn: userLoggedIn$ | async,
+            userName: userName$ | async,
+            userId: userId$ | async,
+        } as data">
+            <ng-container *ngIf="data.loggedIn; else elseBlock">
+                <div class="px-3 mb-2">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted me-2">User Name:</span>
+                        <span>{{ data.userName }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted me-2">User ID:</span>
+                        <span>{{ data.userId }}</span>
+                    </div>
+                </div>
+                <button ngbDropdownItem class="logout-btn" (click)="logOut()">Log Out</button>
+            </ng-container>
+            <ng-template #elseBlock>
+                <button ngbDropdownItem (click)="logIn()">Log In</button>
+            </ng-template>
+        </ng-container>
+    </div>
+</div>
