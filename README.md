@@ -1,14 +1,32 @@
 # TestTask
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.8.
+A simple todo list app built with Angular 17, Angular CLI (17.3.8), ngrx, Bootstrap 5 and ng-bootstrap.
+
+## Working application
+
+Check out the **live application** -> https://worlds-best-todo-app.netlify.app/
+
+## Tech stack
+
+- [Angular 17][angular]
+- [ngrx][ngrx] state management library
+- [ng-bootstrap][ng-bootstrap] UI component: `modal`, `dropdown`.
+- [Bootsrap 5][bootsrap] - For basic components styles and utilities
+- [ngx-loading][ngx-loading] - A customisable loading spinner.
+- [ngx-toastr][ngx-toastr] - Used for showing pop up notifications.
+- [Netlify][netlify] for deployment
+
+[angular]: https://v17.angular.io/docs
+[ngrx]: https://ngrx.io/
+[bootsrap]: https://getbootstrap.com/
+[ngx-loading]: https://www.npmjs.com/package/ngx-loading
+[ngx-toastr]: https://www.npmjs.com/package/ngx-toastr
+[ng-bootstrap]: https://ng-bootstrap.github.io/
+[netlify]: http://netlify.com/
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4546/`. The application will automatically reload if you change any of the source files.
 
 ## Build
 
