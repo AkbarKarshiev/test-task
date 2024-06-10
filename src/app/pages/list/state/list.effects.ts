@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Inject, inject, Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -63,7 +63,7 @@ export class ListEffects {
         this.pageLoaderService.startLoading();
       }),
     );
-  }, { functional: true, dispatch: false });
+  }, { dispatch: false });
 
   createNewListItemSuccess$= createEffect(() => {
     return this.actions$.pipe(
@@ -99,7 +99,7 @@ export class ListEffects {
         }
       }),
     );
-  }, { functional: true, dispatch: false });
+  }, { dispatch: false });
 
   updateListItem$ = createEffect(() => {
     return this.actions$.pipe(
@@ -126,7 +126,7 @@ export class ListEffects {
         this.pageLoaderService.startLoading();
       }),
     );
-  }, { functional: true, dispatch: false });
+  }, { dispatch: false });
 
   updateNewListItemSuccess$= createEffect(() => {
     return this.actions$.pipe(
@@ -137,7 +137,7 @@ export class ListEffects {
         this.toastr.success('Item updated successfully');
       }),
     );
-  }, { functional: true, dispatch: false });
+  }, { dispatch: false });
 
   deleteListItem$ = createEffect(() => {
     return this.actions$.pipe(

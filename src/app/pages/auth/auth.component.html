@@ -13,7 +13,7 @@
                 </div>
                 <div class="mb-4">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" formControlName="password" id="password">
+                    <input type="password" autocomplete="off" class="form-control" formControlName="password" id="password">
                     <ng-container *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.touched">
                         <div class="text-danger" *ngIf="authForm.get('password')?.hasError('required')">Email is required</div>
                     </ng-container>

@@ -10,7 +10,7 @@ import { NavigationPaths, PATHS } from '../../core/navigation/common/navigation.
   selector: 'pm-auth',
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthComponent {
   public readonly authForm: FormGroup = new FormGroup({

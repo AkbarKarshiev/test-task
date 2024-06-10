@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
+import { catchError, exhaustMap, filter, map, of, switchMap, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -49,12 +49,12 @@ export class AuthEffects {
   logIn$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.logIn),
-      switchMap(({ submitData }: { submitData: AuthSubmitBody }) =>
+      exhaustMap(({ submitData }: { submitData: AuthSubmitBody }) =>
         this.authApiService.login(submitData).pipe(
           map((response: AuthResponse) => {
             return AuthActions.logInSuccess({ response });
           }),
-            catchError((error: HttpErrorResponse) => of(AuthActions.logInFailure({ error })))
+          catchError((error: HttpErrorResponse) => of(AuthActions.logInFailure({ error })))
         )
       ),
     );
@@ -73,7 +73,7 @@ export class AuthEffects {
         this.navigationService.navigate([this.paths.home, this.paths.list]).then();
       }),
     );
-  }, { functional: true, dispatch: false })
+  }, { dispatch: false })
 
   logInFailure$ = createEffect(() => {
     return this.actions$.pipe(
@@ -99,7 +99,7 @@ export class AuthEffects {
         this.navigationService.navigate([this.paths.auth]).then();
       }),
     );
-}, { functional: true, dispatch: false });
+}, { dispatch: false });
 
   constructor(
     private readonly actions$: Actions,
