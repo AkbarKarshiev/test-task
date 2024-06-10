@@ -10,6 +10,7 @@ import { NAVIGATION_PATHS, PATHS } from './core/navigation/common/navigation.int
 import { ListStateModule } from './pages/list/state/list-state.module';
 import { RootStoreModule } from './core/store/root/root.module';
 import { authInterceptor } from './core/api/interceptors/auth.interceptor';
+import { MetaStateModule } from './core/meta/state/meta-state.module';
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ import { authInterceptor } from './core/api/interceptors/auth.interceptor';
     ToastrModule.forRoot(),
     RootStoreModule,
     ListStateModule,
-
+    MetaStateModule,
   ],
   providers: [
     provideHttpClient(
