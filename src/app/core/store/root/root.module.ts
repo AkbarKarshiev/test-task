@@ -6,7 +6,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { rootReducer } from './root.reducer';
 import { AuthFacade } from '../../../pages/auth/state/auth.facade';
 import { AuthEffects } from '../../../pages/auth/state/auth.effects';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment';
 import { AuthApiModule } from '../../../pages/auth/api/auth-api.module';
 
 @NgModule({
