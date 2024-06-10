@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, combineLatest, map, of, switchMap, take, tap } from 'rxjs';
+import { catchError, combineLatest, filter, map, of, switchMap, take, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -68,6 +68,7 @@ export class AuthEffects {
     logInFailure$ = createEffect(() => {
         return this.actions$.pipe(
             ofType(AuthActions.logInFailure),
+            filter(Boolean),
             tap(({ error }: { error: HttpErrorResponse}) => {
                 const getErrorMsg = this.errorFactory.getErrorMessage(this.errorFactory.fromResponse(error));
                 this.toastr.error(getErrorMsg);

@@ -2,26 +2,29 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ApiService } from '../../../core/api/service/api.service';
-import { EnvironmentService } from '../../../core/environments/service/environment.service';
-import { ListItem, ListResponse } from '../common/list.interface';
+import { ListItem, ListItemModel, ListResponse } from '../common/list.interface';
 
 @Injectable()
 export class ListApiService {
-    constructor(private readonly apiService: ApiService, private readonly environmentService: EnvironmentService) { }
+  constructor(private readonly apiService: ApiService) { }
 
-    public loadList(): Observable<ListResponse> {
-        return this.apiService.get<ListResponse>(this.getListApiRoute());
-    }
+  public loadList(): Observable<ListResponse> {
+    return this.apiService.get<ListResponse>('api/todo/?offset=0&limit=1000');
+  }
 
-    public loadOneListItem(id: string): Observable<ListItem> {
-        return this.apiService.get<ListItem>(this.getListItemApiRoute(id));
-    }
+  public loadOneListItem(id: string): Observable<ListItem> {
+    return this.apiService.get<ListItem>(`api/todo/${id}/`);
+  }
 
-    private getListApiRoute(): string {
-        return this.environmentService.environments.api + '/todo/';
-    }
+  public createListItem(data: ListItemModel): Observable<ListItem> {
+    return this.apiService.post<ListItem>('api/todo/', data);
+  }
 
-    private getListItemApiRoute(id: string): string {
-        return this.environmentService.environments.api + `/todo/${id}`;
-    }
+  public updateListItem(itemId: string, data: ListItemModel): Observable<ListItem> {
+    return this.apiService.put<ListItem>(`api/todo/${itemId}/`, data);
+  }
+
+  public deleteListItem(itemId: string): Observable<unknown> {
+    return this.apiService.delete<unknown>(`api/todo/${itemId}/`);
+  }
 }

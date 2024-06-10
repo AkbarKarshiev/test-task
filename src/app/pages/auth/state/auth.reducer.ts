@@ -7,6 +7,7 @@ export const AUTH_FEATURE_KEY = 'auth';
 export interface AuthState {
     username: string | null;
     user_id: number | null;
+    token: string | null;
 
     loading: boolean;
     logged_in: boolean;
@@ -15,6 +16,7 @@ export interface AuthState {
 export const initialAuthState: AuthState = {
     username: null,
     user_id: null,
+    token: null,
     loading: false,
     logged_in: false,
 };
@@ -25,10 +27,7 @@ const reducer = createReducer(
         AuthActions.checkAuthSuccess,
         (state: AuthState, { authData }): AuthState => {
             const hasToken = Boolean(authData.token);
-            const resultState = { ...state, logged_in: hasToken };
-
-            resultState.username = authData?.username || null;
-            resultState.user_id = authData?.user_id || null;
+            const resultState = { ...state, ...authData, logged_in: hasToken };
 
             return { ...resultState }
         },
@@ -43,6 +42,7 @@ const reducer = createReducer(
             ...state,
             loading: false,
             logged_in: true,
+            token: response.token,
             username: response.username,
             user_id: response.user_id,
         }),
@@ -54,6 +54,7 @@ const reducer = createReducer(
             loading: false,
             logged_in: false,
             username: null,
+            token: null,
             user_id: null,
         }),
     ),
@@ -64,6 +65,7 @@ const reducer = createReducer(
             loading: false,
             logged_in: false,
             username: null,
+            token: null,
             user_id: null,
         }),
     ),

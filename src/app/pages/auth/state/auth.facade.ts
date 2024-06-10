@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import * as AuthActions from './auth.actions';
 import * as AuthSelectors from './auth.selector';
 import { AuthSubmitBody } from '../common/auth.interface';
+import { selectAuthToken } from './auth.selector';
 
 @Injectable()
 export class AuthFacade {
@@ -14,6 +15,8 @@ export class AuthFacade {
     userName$ = this.store.select(AuthSelectors.selectUserName);
 
     userId$ = this.store.select(AuthSelectors.selectUserId);
+
+    userToken$ = this.store.select(AuthSelectors.selectAuthToken);
 
     constructor(private readonly store: Store) {}
 

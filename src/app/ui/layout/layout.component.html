@@ -18,3 +18,5 @@
         <router-outlet></router-outlet>
     </div>
 </ng-template>
+
+<ngx-loading [show]="!!(loading$ | async)"></ngx-loading>

@@ -24,3 +24,13 @@
         color: $teal-500;
     }
 }
+
+table {
+    tr td {
+        &:first-child, &:last-child {
+            text-align: center;
+        }
+
+        vertical-align: middle;
+    }
+}

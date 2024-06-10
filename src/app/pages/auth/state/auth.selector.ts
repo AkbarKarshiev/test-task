@@ -7,6 +7,8 @@ export const selectUserName = createSelector(selectListState, (state: AuthState)
 
 export const selectUserId = createSelector(selectListState, (state: AuthState) => state.user_id);
 
+export const selectAuthToken = createSelector(selectListState, (state: AuthState) => state.token);
+
 export const selectLoading = createSelector(selectListState, (state: AuthState) => state.loading);
 
 export const selectLoggedIn = createSelector(selectListState, (state: AuthState) => state.logged_in);

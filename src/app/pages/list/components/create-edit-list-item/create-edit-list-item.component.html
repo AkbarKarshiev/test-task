@@ -1,0 +1,35 @@
+<div class="modal-header justify-content-between">
+    <h4 class="mb-0">{{ modalTitle }}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="submitForm" (ngSubmit)="onSubmit()" *ngIf="!(editItemLoading$ | async); else loadingBlock">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" [formControlName]="formFieldKeys.Title" required>
+            <ng-container *ngIf="submitForm.get(formFieldKeys.Title)?.invalid && submitForm.get(formFieldKeys.Title)?.touched">
+                <div class="text-danger" *ngIf="submitForm.get(formFieldKeys.Title)?.hasError('required')">Title is required</div>
+            </ng-container>
+        </div>
+        <div class="mb-3">
+            <div>
+                <label for="completed" class="form-label">Completed</label>
+            </div>
+            <input type="checkbox" class="form-check-input" id="completed" [formControlName]="formFieldKeys.Completed">
+            <ng-container *ngIf="submitForm.get(formFieldKeys.Completed)?.invalid && submitForm.get(formFieldKeys.Completed)?.touched">
+                <div class="text-danger" *ngIf="submitForm.get(formFieldKeys.Completed)?.hasError('required')">Title is required</div>
+            </ng-container>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+
+<ng-template #loadingBlock>
+    <div class="d-flex justify-content-center align-items-center" style="height: 12rem">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</ng-template>

@@ -1,9 +1,10 @@
 <div class="d-flex align-items-center justify-content-between mt-4 mb-4">
     <h2 class="mb-0">To Do list</h2>
-    <button class="btn btn-primary">Add Task <i class="bi bi-plus-lg"></i></button>
+    <button class="btn btn-primary" (click)="onAdd()">Add Task <i class="bi bi-plus-lg"></i></button>
 </div>
 <table class="table table-bordered table-responsive">
     <colgroup>
+        <col span="1" style="width: 7%;">
         <col span="1" style="width: 40%;">
         <col span="1">
         <col span="1">
@@ -11,28 +12,52 @@
     </colgroup>
     <thead>
         <tr>
+            <th scope="col">Status</th>
             <th scope="col">Task name</th>
             <th scope="col">Created at</th>
             <th scope="col">Updated at</th>
             <th scope="col">Actions</th>
         </tr>
     </thead>
-    <tbody>
-        <tr>
-            <td>Task 1</td>
-            <td>01.05.2020</td>
-            <td>01.05.2020</td>
-            <td>
-                <div ngbDropdown class="d-inline-block" placement="bottom-end">
-                    <button class="btn action-btn d-inline-block" type="button" id="actionDropDown" ngbDropdownToggle>
-                        <i class="bi bi-three-dots"></i>
-                    </button>
-                    <div ngbDropdownMenu aria-labelledby="actionDropDown">
-                        <button ngbDropdownItem class="edit-btn">Edit</button>
-                        <button ngbDropdownItem class="delete-btn">Delete</button>
+    <tbody *ngIf="{
+        listLoading: listLoading$ | async,
+        listItems: listItems$ | async,
+    } as data">
+        <ng-container *ngIf="!data.listLoading; else loadingBlock">
+            <tr *ngFor="let item of data.listItems; trackBy: trackByFn">
+                <td>
+                    <input class="form-check-input" type="checkbox" (click)="toggleTaskStatus($event, item)" [checked]="item.completed">
+                </td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.created_at | date: dateFormat }}</td>
+                <td>{{ item.updated_at | date: dateFormat }}</td>
+                <td>
+                    <div ngbDropdown class="d-inline-block" placement="bottom-end">
+                        <button class="btn action-btn d-inline-block" type="button" id="actionDropDown" ngbDropdownToggle>
+                            <i class="bi bi-three-dots"></i>
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="actionDropDown">
+                            <button ngbDropdownItem class="edit-btn" (click)="onEdit(item)">Edit</button>
+                            <button ngbDropdownItem class="delete-btn" (click)="onDelete(item)">Delete</button>
+                        </div>
                     </div>
-                </div>
-            </td>
+                </td>
+            </tr>
+        </ng-container>
+        <tr *ngIf="!data.listLoading && !data.listItems?.length">
+            <td colspan="5" class="text-center">No data available</td>
         </tr>
     </tbody>
 </table>
+
+<ng-template #loadingBlock>
+    <tr>
+        <td colspan="5">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </td>
+    </tr>
+</ng-template>

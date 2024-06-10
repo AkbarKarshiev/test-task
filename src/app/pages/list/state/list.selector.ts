@@ -11,4 +11,10 @@ export const selectListEntities = createSelector(selectListState, (state: ListSt
 
 export const selectListLoaded = createSelector(selectListState, (state: ListState) => state.loaded);
 
+export const selectListLoading = createSelector(selectListState, (state: ListState) => state.loading);
+
+export const selectEditItem = createSelector(selectListState, (state: ListState) => state.editingItem);
+
+export const selectEditItemLoading = createSelector(selectListState, (state: ListState): boolean => state.loadingEditItem);
+
 export const selectListItem = (id: string) => createSelector(selectListEntities, (entities) => entities[id] ?? null);
