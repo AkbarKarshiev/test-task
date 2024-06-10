@@ -9,12 +9,12 @@ Check out the **live application** -> https://worlds-best-todo-app.netlify.app/
 ## Tech stack
 
 - [Angular 17][angular]
-- [ngrx][ngrx] state management library
+- [ngrx][ngrx] For state management
 - [ng-bootstrap][ng-bootstrap] UI component: `modal`, `dropdown`.
 - [Bootsrap 5][bootsrap] - For basic components styles and utilities
 - [ngx-loading][ngx-loading] - A customisable loading spinner.
 - [ngx-toastr][ngx-toastr] - Used for showing pop up notifications.
-- [Netlify][netlify] for deployment
+- [Netlify][netlify] For deployment
 
 [angular]: https://v17.angular.io/docs
 [ngrx]: https://ngrx.io/
