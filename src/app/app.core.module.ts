@@ -4,7 +4,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 
 import { ENVIRONMENTS } from './core/environments/common/environment.interface';
-import { environment } from '../environments/environment.development';
+import { environment } from '../environments/environment';
 import { NAVIGATION_PATHS, PATHS } from './core/navigation/common/navigation.interface';
 
 import { ListStateModule } from './pages/list/state/list-state.module';

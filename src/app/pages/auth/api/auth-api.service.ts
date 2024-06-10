@@ -16,6 +16,7 @@ export class AuthApiService {
   }
 
   private get apiRoute(): string {
+    console.log(this.environmentService.environments.production);
     if (this.environmentService.environments.production) {
       return this.environmentService.environments.api;
     } else {
