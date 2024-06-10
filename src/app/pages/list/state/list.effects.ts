@@ -84,7 +84,7 @@ export class ListEffects {
         ListActions.updateOneItemFailure,
         ListActions.loadOneItemFailure,
         ListActions.deleteOneItemFailure,
-        // ListActions.loadFailure,
+        ListActions.loadFailure,
       ),
       filter(Boolean),
       tap(({ error }: { error: HttpErrorResponse}) => {
