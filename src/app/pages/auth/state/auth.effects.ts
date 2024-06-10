@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, combineLatest, filter, map, of, switchMap, take, tap } from 'rxjs';
+import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -9,6 +9,8 @@ import * as AuthActions from './auth.actions';
 import { AuthResponse, AuthSubmitBody } from '../common/auth.interface';
 import { ErrorFactoryService } from '../../../core/errors/service/error-factory.service';
 import { LocalAsyncStorageService } from '../../../core/storage/local/local-async-storage.service';
+import { NavigationService } from '../../../core/navigation/service/navigation.service';
+import { NavigationPaths, PATHS } from '../../../core/navigation/common/navigation.interface';
 
 export enum AuthItemLocalStorageKeys {
     Token = 'token',
@@ -18,80 +20,94 @@ export enum AuthItemLocalStorageKeys {
 
 @Injectable()
 export class AuthEffects {
-    checkAuth$ = createEffect(() => {
-        return this.actions$.pipe(
-            ofType(AuthActions.checkAuth),
-            switchMap(() => combineLatest([
-                this.localAsyncStorage.getItem(AuthItemLocalStorageKeys.Token).pipe(take(1)),
-                this.localAsyncStorage.getItem(AuthItemLocalStorageKeys.UserName).pipe(take(1)),
-                this.localAsyncStorage.getItem(AuthItemLocalStorageKeys.UserId).pipe(take(1)),
-            ]).pipe(
-                map(([token, userName, userId]) => {
-                    const userData: Partial<AuthResponse> = {}
-                    const convertedNumber = Number(userId as string);
+  checkAuth$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.checkAuth),
+      switchMap(() => (of(this.localAsyncStorage.state)).pipe(
+        map((data) => {
+          const userData: Partial<AuthResponse> = {}
 
-                    token && (userData.token = token as string);
-                    userName && (userData.username = userName as string);
-                    Boolean(convertedNumber) && (userData.user_id = convertedNumber);
 
-                    return AuthActions.checkAuthSuccess({ authData: userData });
-                }),
-            )),
-        );
-    });
+          if (AuthItemLocalStorageKeys.Token in data) {
+            userData.token = data[AuthItemLocalStorageKeys.Token] as string
+          }
 
-    logIn$ = createEffect(() => {
-        return this.actions$.pipe(
-            ofType(AuthActions.logIn),
-            switchMap(({ submitData }: { submitData: AuthSubmitBody }) =>
-                this.authApiService.login(submitData).pipe(
-                    map((response: AuthResponse) => {
-                        return AuthActions.logInSuccess({ response });
-                    }),
-                    catchError((error: HttpErrorResponse) => of(AuthActions.logInFailure({ error })))
-                )
-            ),
-        );
-    });
+          if (AuthItemLocalStorageKeys.UserName in data) {
+            userData.username = data[AuthItemLocalStorageKeys.UserName] as string
+          }
 
-    logInSuccess$ = createEffect(() => {
-        return this.actions$.pipe(
-            ofType(AuthActions.logInSuccess),
-            tap(({ response }: { response: AuthResponse }) => {
-                this.localAsyncStorage.setItem(AuthItemLocalStorageKeys.Token, response.token);
-                this.localAsyncStorage.setItem(AuthItemLocalStorageKeys.UserName, response.username);
-                this.localAsyncStorage.setItem(AuthItemLocalStorageKeys.UserId, response.user_id);
-            }),
-        );
-    }, { functional: true, dispatch: false })
+          if (AuthItemLocalStorageKeys.UserId in data) {
+            userData.user_id = Number(data[AuthItemLocalStorageKeys.UserId] as string);
+          }
 
-    logInFailure$ = createEffect(() => {
-        return this.actions$.pipe(
-            ofType(AuthActions.logInFailure),
-            filter(Boolean),
-            tap(({ error }: { error: HttpErrorResponse}) => {
-                const getErrorMsg = this.errorFactory.getErrorMessage(this.errorFactory.fromResponse(error));
-                this.toastr.error(getErrorMsg);
-            }),
-        );
-    }, { functional: true, dispatch: false });
+          return AuthActions.checkAuthSuccess({ authData: userData });
+        }),
+      )),
+    );
+  });
 
-    logOut$ = createEffect(() => {
-        return this.actions$.pipe(
-            ofType(AuthActions.logOut),
-            tap(() => {
-                this.localAsyncStorage.removeItem(AuthItemLocalStorageKeys.Token);
-                this.localAsyncStorage.removeItem(AuthItemLocalStorageKeys.UserName);
-                this.localAsyncStorage.removeItem(AuthItemLocalStorageKeys.UserId);
-            }),
-        );
-    }, { functional: true, dispatch: false });
+  logIn$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.logIn),
+      switchMap(({ submitData }: { submitData: AuthSubmitBody }) =>
+        this.authApiService.login(submitData).pipe(
+          map((response: AuthResponse) => {
+            return AuthActions.logInSuccess({ response });
+          }),
+            catchError((error: HttpErrorResponse) => of(AuthActions.logInFailure({ error })))
+        )
+      ),
+    );
+  });
 
-    constructor(
-        private readonly actions$: Actions,
-        private readonly authApiService: AuthApiService,
-        private readonly errorFactory: ErrorFactoryService,
-        private readonly toastr: ToastrService,
-        private readonly localAsyncStorage: LocalAsyncStorageService,
-    ) {}
+  logInSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.logInSuccess),
+      tap(({ response }: { response: AuthResponse }) => {
+        this.localAsyncStorage.setItems({
+          [AuthItemLocalStorageKeys.Token]: response.token,
+          [AuthItemLocalStorageKeys.UserName]: response.username,
+          [AuthItemLocalStorageKeys.UserId]: response.user_id,
+        });
+
+        this.navigationService.navigate([this.paths.home, this.paths.list]).then();
+      }),
+    );
+  }, { functional: true, dispatch: false })
+
+  logInFailure$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.logInFailure),
+      filter(Boolean),
+      tap(({ error }: { error: HttpErrorResponse}) => {
+        const getErrorMsg = this.errorFactory.getErrorMessage(this.errorFactory.fromResponse(error));
+        this.toastr.error(getErrorMsg);
+      }),
+    );
+  }, { functional: true, dispatch: false });
+
+  logOut$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.logOut),
+      tap(() => {
+        this.localAsyncStorage.removeItems([
+          AuthItemLocalStorageKeys.Token,
+          AuthItemLocalStorageKeys.UserName,
+          AuthItemLocalStorageKeys.UserId,
+        ]);
+
+        this.navigationService.navigate([this.paths.auth]).then();
+      }),
+    );
+}, { functional: true, dispatch: false });
+
+  constructor(
+    private readonly actions$: Actions,
+    private readonly authApiService: AuthApiService,
+    private readonly errorFactory: ErrorFactoryService,
+    private readonly toastr: ToastrService,
+    private readonly localAsyncStorage: LocalAsyncStorageService,
+    private readonly navigationService: NavigationService,
+    @Inject(PATHS) private readonly paths: NavigationPaths,
+  ) {}
 }

@@ -37,6 +37,10 @@ export class ErrorFactoryService {
         return new CommonError(response);
     }
 
+    public isUnauthorizedError(error: ApiError): boolean {
+        return error instanceof AuthError;
+    }
+
     private createAuthorizedError(response: HttpLikeError): AuthError {
         return new AuthError(response);
     }

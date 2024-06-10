@@ -19,10 +19,10 @@
                         <span>{{ data.userId }}</span>
                     </div>
                 </div>
-                <button ngbDropdownItem class="logout-btn" (click)="logOut()">Log Out</button>
+                <button ngbDropdownItem class="logout-btn" type="button" (click)="logOut()">Log Out</button>
             </ng-container>
             <ng-template #elseBlock>
-                <button ngbDropdownItem (click)="logIn()">Log In</button>
+                <button ngbDropdownItem type="button" (click)="logIn()">Log In</button>
             </ng-template>
         </ng-container>
     </div>

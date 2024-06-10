@@ -9,9 +9,9 @@ export const checkAuthSuccess = createAction('[Auth] Check Auth Success', props<
 
 export const logIn = createAction('[Auth] LogIn', props<{ submitData: AuthSubmitBody }>());
 
-export const logInSuccess = createAction('[List] LogIn Success', props<{ response: AuthResponse }>());
+export const logInSuccess = createAction('[Auth] LogIn Success', props<{ response: AuthResponse }>());
 
-export const logInFailure = createAction('[List] LogIn Failure', props<{ error: HttpErrorResponse }>());
+export const logInFailure = createAction('[Auth] LogIn Failure', props<{ error: HttpErrorResponse }>());
 
 export const logOut = createAction('[Auth] LogOut');
 

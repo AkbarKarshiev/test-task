@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -12,6 +12,8 @@ import { ListApiService } from '../api/list-api.service';
 import { ErrorFactoryService } from '../../../core/errors/service/error-factory.service';
 import { PageLoaderService } from '../../../core/service/page-loader.service';
 import { ListItem } from '../common/list.interface';
+import { NavigationService } from '../../../core/navigation/service/navigation.service';
+import { NavigationPaths, PATHS } from '../../../core/navigation/common/navigation.interface';
 
 @Injectable()
 export class ListEffects {
@@ -82,13 +84,19 @@ export class ListEffects {
         ListActions.updateOneItemFailure,
         ListActions.loadOneItemFailure,
         ListActions.deleteOneItemFailure,
+        // ListActions.loadFailure,
       ),
       filter(Boolean),
       tap(({ error }: { error: HttpErrorResponse}) => {
-        const getErrorMsg = this.errorFactory.getErrorMessage(this.errorFactory.fromResponse(error));
+        const errorObj = this.errorFactory.fromResponse(error);
+        const getErrorMsg = this.errorFactory.getErrorMessage(errorObj);
 
         this.pageLoaderService.stopLoading();
         this.toastr.error(getErrorMsg);
+
+        if (this.errorFactory.isUnauthorizedError(errorObj)) {
+          this.navigationService.navigate([this.paths.auth]).then();
+        }
       }),
     );
   }, { functional: true, dispatch: false });
@@ -160,6 +168,8 @@ export class ListEffects {
     private readonly errorFactory: ErrorFactoryService,
     private readonly toastr: ToastrService,
     private readonly pageLoaderService: PageLoaderService,
-    private readonly modalService: NgbModal
+    private readonly modalService: NgbModal,
+    private readonly navigationService: NavigationService,
+    @Inject(PATHS) private readonly paths: NavigationPaths,
   ) {}
 }

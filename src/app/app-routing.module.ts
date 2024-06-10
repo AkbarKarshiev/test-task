@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import { NAVIGATION_PATHS } from './core/navigation/common/navigation.interface';
 import { LayoutComponent } from './ui/layout/layout.component';
 import { LayoutModule } from './ui/layout/layout.module';
+import { authGuard } from './core/guards/auth.guard';
+import { authPageGuard } from './core/guards/auth-page.guard';
 
 const routes: Routes = [
   {
@@ -21,6 +23,7 @@ const routes: Routes = [
           {
             path: NAVIGATION_PATHS.list,
             loadChildren: () => import('./pages/list/list.module').then(m => m.ListModule),
+            canActivate: [authGuard],
           },
           {
             path: '**',
@@ -31,6 +34,7 @@ const routes: Routes = [
       {
         path: NAVIGATION_PATHS.auth,
         loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
+        canActivate: [authPageGuard],
       },
       {
         path: '**',
